@@ -1,4 +1,6 @@
 # Proyecto de Taller numero 2
+# Joseph Coronado Alvrado
+# Alejandro Benavides Juarez
 
 import pygame
 pygame.init()
@@ -23,7 +25,7 @@ while running:
             pygame.quit()
             exit()
     pygame.display.update()
-    #running = False
+
 
 
 
