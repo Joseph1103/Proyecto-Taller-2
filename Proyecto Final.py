@@ -52,9 +52,8 @@ class Ventana():
         self.boton2 = Button(self.canvas, text="Menu",  font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
     # Imagen de la nave
-        self.nave_player = PhotoImage(file="nave.png")
-        self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_player)
-        self.ventana.mainloop()
+        self.nave_jugador = PhotoImage(file="nave.png")
+        self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador)
 
     # Movimientos de la nave
         def left(event):
@@ -77,6 +76,9 @@ class Ventana():
             y = 12
             self.canvas.move(self.nave, x, y)
 
+
+            self.ventana.mainloop()
+
         # LLamadas a los movimientos
         self.ventana.bind("<Left>", left)
         self.ventana.bind("<Right>", right)
@@ -93,9 +95,40 @@ class Ventana():
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
+
     # Imagen de la nave
-        self.nave_player = PhotoImage(file="nave.png")
-        self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_player)
+        self.nave_jugador2 = PhotoImage(file="nave.png")
+        self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador2)
+
+    # Movimientos de la nave
+        def left(event):
+            x = -12
+            y = 0
+            self.canvas.move(self.nave, x, y)
+
+        def right(event):
+            x = 12
+            y = 0
+            self.canvas.move(self.nave, x, y)
+
+        def up(event):
+            x = 0
+            y = -12
+            self.canvas.move(self.nave, x, y)
+
+        def down(event):
+            x = 0
+            y = 12
+            self.canvas.move(self.nave, x, y)
+
+            self.ventana.mainloop()
+
+        # LLamada a los movimientos
+        self.ventana.bind("<Left>", left)
+        self.ventana.bind("<Right>", right)
+        self.ventana.bind("<Up>", up)
+        self.ventana.bind("<Down>", down)
+
         self.ventana.mainloop()
 
     # Nivel 3
@@ -106,9 +139,40 @@ class Ventana():
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow", command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
+
     # Imagen de la nave
-        self.nave_player = PhotoImage(file="nave.png")
-        self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_player)
+        self.nave_jugador3 = PhotoImage(file="nave.png")
+        self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador3)
+
+    # Movimientos de la nave
+        def left(event):
+            x = -12
+            y = 0
+            self.canvas.move(self.nave, x, y)
+
+        def right(event):
+            x = 12
+            y = 0
+            self.canvas.move(self.nave, x, y)
+
+        def up(event):
+            x = 0
+            y = -12
+            self.canvas.move(self.nave, x, y)
+
+        def down(event):
+            x = 0
+            y = 12
+            self.canvas.move(self.nave, x, y)
+
+            self.ventana.mainloop()
+
+    # LLamadas a los movimientos
+        self.ventana.bind("<Left>", left)
+        self.ventana.bind("<Right>", right)
+        self.ventana.bind("<Up>", up)
+        self.ventana.bind("<Down>", down)
+
         self.ventana.mainloop()
 
 #########################################################################################################################################
