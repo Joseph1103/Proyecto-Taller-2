@@ -3,8 +3,8 @@
 # Alejandro Benavides Juarez
 
 from tkinter import *
-# from threading import Thread
-# import time
+from threading import Thread
+import time
 
 # Pantalla Principal y ventanas
 class Ventana():
@@ -13,9 +13,15 @@ class Ventana():
         self.canvas = Canvas(self.ventana, width=800, height=600, bg="white", highlightbackground="White")
         self.canvas.pack()
         self.canvas.place(x=0, y=0)
+        self.alive = False
         self.PantallaPrincipal()
 
     def PantallaPrincipal(self):
+    # Variables
+        global vida
+        vida = 3
+        global score
+        score = 0
     # Fondo
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="white")
         bg = PhotoImage(file="fondo.png")
@@ -54,6 +60,27 @@ class Ventana():
     # Imagen de la nave
         self.nave_jugador = PhotoImage(file="nave.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador)
+    # Imagen del meteorito 1
+        self.meteor_1 = PhotoImage(file="meteor.gif")
+        self.meteor = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
+    # Imagen del meteorito 1
+        self.meteor_2 = PhotoImage(file="meteor2.gif")
+        self.meteor = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
+    #  Barra de vida
+        self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
+        self.progresbar.place(x=0, y=800)
+        self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
+        self.vida.place(x=5, y=550)
+    # Tiempo
+        self.Label_time = Label(self.canvas, text="Time: ", font=("Airstrike", 11))
+        self.Label_time.place(x=100, y=550)
+
+        self.segundos1 = Label(self.canvas, text="", font=("Airstrike", 11))
+        self.segundos1.place(x=149, y=550)
+
+        self.sec1 = 0
+        self.vidaPlayerLv1 = 3
+        self.alive = False
 
     # Movimientos de la nave
         def left(event):
@@ -79,13 +106,25 @@ class Ventana():
 
             self.ventana.mainloop()
 
-        # LLamadas a los movimientos
+    # LLamadas a los movimientos
         self.ventana.bind("<Left>", left)
         self.ventana.bind("<Right>", right)
         self.ventana.bind("<Up>", up)
         self.ventana.bind("<Down>", down)
 
+        time = Thread(target=self.TimeLevel1)
+        time.start()
+
         self.ventana.mainloop()
+
+    # Tiempo del nivel 1
+        def TimeLevel1(self):
+            if self.alive:
+                return 0
+            self.sec1 += 1
+            time.sleep(1)
+            self.segundos1.config(text=str(self.sec1))
+            return self.TimeLevel1()
 
     # Nivel 2
     def segundo_nivel(self):
