@@ -41,6 +41,9 @@ class Ventana():
     # Boton Nivel 3
         self.boton_start = Button(self.canvas, text="Nivel 3", font=("Airstrike", 25), command=self.tercer_nivel)
         self.boton_start.place(x=580, y=300)
+    # Boton pagina de puntajes
+        self.boton_start = Button(self.canvas, text="Best Scores", font=("Airstrike", 25), command=self.scores)
+        self.boton_start.place(x=305, y=480)
     # Boton pagina de creditos
         self.boton_credits = Button(self.canvas, text="Creditos", font=("Airstrike", 25), command=self.creditos)
         self.boton_credits.place(x=20, y=480)
@@ -285,7 +288,7 @@ class Ventana():
         self.meteor_3 = PhotoImage(file="meteor2.gif")
         self.meteor = self.canvas.create_image(300, 200, anchor=NW, image=self.meteor_3)
 
-    # Imagen del meteorito 1
+    # Imagen del meteorito 4
         self.meteor_4 = PhotoImage(file="meteor.gif")
         self.meteor = self.canvas.create_image(450, 500, anchor=NW, image=self.meteor_4)
 
@@ -371,6 +374,22 @@ class Ventana():
         time.sleep(1)
         self.score3.config(text=str(self.scr3))
         return self.puntaje3()
+
+#########################################################################################################################################
+# Puntajes
+    def scores(self):
+        self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
+        bg = PhotoImage(file="space.png")
+        self.canvas.create_image(0, 0, image=bg, anchor="nw")
+        self.canvas.place(x=-5, y=0)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow", command=self.PantallaPrincipal)
+        self.boton2.place(x=0, y=0)
+
+    # Imagen del meme
+        self.meme = PhotoImage(file="nopuedeser.png")
+        self.hehe = self.canvas.create_image(250, 65, anchor=NW, image=self.meme)
+
+        self.ventana.mainloop()
 
 #########################################################################################################################################
 # Creditos
