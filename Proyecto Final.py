@@ -419,3 +419,4 @@ ventana.config(bg="Black")
 miObjetoVentanas = Ventana(ventana)
 
 ventana.mainloop()
+print()
