@@ -57,20 +57,25 @@ class Ventana():
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.boton2 = Button(self.canvas, text="Menu",  font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
+
     # Imagen de la nave
         self.nave_jugador = PhotoImage(file="nave.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador)
+
     # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
         self.meteor = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
+
     # Imagen del meteorito 2
         self.meteor_2 = PhotoImage(file="meteor2.gif")
         self.meteor = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
+
     #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
         self.progresbar.place(x=0, y=800)
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
+
     # Tiempo
         self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
@@ -80,7 +85,17 @@ class Ventana():
 
         self.sec1 = 0
         self.vidaPlayerLv1 = 3
-        self.vidaBossLv1 = 0
+        self.alive = False
+
+    #  Puntaje
+        self.score_label = Label(self.canvas, text="Score:", font=("Airstrike", 11))
+        self.score_label.place(x=190, y=550)
+
+        self.score1 = Label(self.canvas, text="", font=("Airstrike", 11))
+        self.score1.place(x=250, y=550)
+
+        self.scr1 = 0
+        self.vidaPlayerLv1 = 3
         self.alive = False
 
     # Movimientos de la nave
@@ -115,6 +130,8 @@ class Ventana():
 
         time = Thread(target=self.TimeLevel1)
         time.start()
+        score = Thread(target=self.puntaje1)
+        score.start()
 
         self.ventana.mainloop()
 
@@ -127,6 +144,14 @@ class Ventana():
         self.segundos1.config(text=str(self.sec1))
         return self.TimeLevel1()
 
+    # Score
+    def puntaje1(self):
+        if self.alive:
+            return 0
+        self.scr1 += 1
+        time.sleep(1)
+        self.score1.config(text=str(self.scr1))
+        return self.puntaje1()
 
     # Nivel 2
     def segundo_nivel(self):
@@ -140,17 +165,21 @@ class Ventana():
     # Imagen de la nave
         self.nave_jugador2 = PhotoImage(file="nave.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador2)
+
     # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
         self.meteor = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
+
         # Imagen del meteorito 2
         self.meteor_2 = PhotoImage(file="meteor2.gif")
         self.meteor = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
+
         #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
         self.progresbar.place(x=0, y=800)
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
+
         # Tiempo
         self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
@@ -160,7 +189,17 @@ class Ventana():
 
         self.sec2 = 0
         self.vidaPlayerLv2 = 3
-        self.vidaBossLv2 = 0
+        self.alive = False
+
+    #  Puntaje
+        self.score_label = Label(self.canvas, text="Score:", font=("Airstrike", 11))
+        self.score_label.place(x=190, y=550)
+
+        self.score2 = Label(self.canvas, text="", font=("Airstrike", 11))
+        self.score2.place(x=250, y=550)
+
+        self.scr2 = 0
+        self.vidaPlayerLv1 = 3
         self.alive = False
 
         # Movimientos de la nave
@@ -194,6 +233,8 @@ class Ventana():
 
         time = Thread(target=self.TimeLevel2)
         time.start()
+        score = Thread(target=self.puntaje2)
+        score.start()
 
         self.ventana.mainloop()
 
@@ -205,6 +246,15 @@ class Ventana():
             time.sleep(1)
             self.segundos2.config(text=str(self.sec2))
             return self.TimeLevel2()
+
+    # Score
+    def puntaje2(self):
+        if self.alive:
+            return 0
+        self.scr2 += 2.5
+        time.sleep(1)
+        self.score2.config(text=str(self.scr2))
+        return self.puntaje2()
 
     # Nivel 3
     def tercer_nivel(self):
@@ -218,17 +268,21 @@ class Ventana():
     # Imagen de la nave
         self.nave_jugador3 = PhotoImage(file="nave.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador3)
-        # Imagen del meteorito 1
+
+    # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
         self.meteor = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
+
     # Imagen del meteorito 1
         self.meteor_2 = PhotoImage(file="meteor2.gif")
         self.meteor = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
+
     #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
         self.progresbar.place(x=0, y=800)
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
+
     # Tiempo
         self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
@@ -238,7 +292,17 @@ class Ventana():
 
         self.sec3 = 0
         self.vidaPlayerLv3 = 3
-        self.vidaBossLv3 = 0
+        self.alive = False
+
+    #  Puntaje
+        self.score_label = Label(self.canvas, text="Score:", font=("Airstrike", 11))
+        self.score_label.place(x=190, y=550)
+
+        self.score3 = Label(self.canvas, text="", font=("Airstrike", 11))
+        self.score3.place(x=250, y=550)
+
+        self.scr3 = 0
+        self.vidaPlayerLv1 = 3
         self.alive = False
 
     # Movimientos de la nave
@@ -273,6 +337,8 @@ class Ventana():
 
         time = Thread(target=self.TimeLevel3)
         time.start()
+        score = Thread(target=self.puntaje3)
+        score.start()
 
         self.ventana.mainloop()
 
@@ -284,6 +350,15 @@ class Ventana():
         time.sleep(1)
         self.segundos3.config(text=str(self.sec3))
         return self.TimeLevel3()
+
+    # Score
+    def puntaje3(self):
+        if self.alive:
+            return 0
+        self.scr3 += 5
+        time.sleep(1)
+        self.score3.config(text=str(self.scr3))
+        return self.puntaje3()
 
 #########################################################################################################################################
 # Creditos
