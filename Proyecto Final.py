@@ -168,19 +168,23 @@ class Ventana():
 
     # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
-        self.meteor = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
+        self.meteor = self.canvas.create_image(50, 100, anchor=NW, image=self.meteor_1)
 
-        # Imagen del meteorito 2
+    # Imagen del meteorito 2
         self.meteor_2 = PhotoImage(file="meteor2.gif")
-        self.meteor = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
+        self.meteor = self.canvas.create_image(210, 350, anchor=NW, image=self.meteor_2)
 
-        #  Barra de vida
+    # Imagen del meteorito 3
+        self.meteor_3 = PhotoImage(file="meteor2.gif")
+        self.meteor = self.canvas.create_image(500, 200, anchor=NW, image=self.meteor_3)
+
+    #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
         self.progresbar.place(x=0, y=800)
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
 
-        # Tiempo
+    # Tiempo
         self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
 
@@ -271,11 +275,19 @@ class Ventana():
 
     # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
-        self.meteor = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
+        self.meteor = self.canvas.create_image(100, 400, anchor=NW, image=self.meteor_1)
+
+    # Imagen del meteorito 2
+        self.meteor_2 = PhotoImage(file="meteor2.gif")
+        self.meteor = self.canvas.create_image(600, 350, anchor=NW, image=self.meteor_2)
+
+    # Imagen del meteorito 3
+        self.meteor_3 = PhotoImage(file="meteor2.gif")
+        self.meteor = self.canvas.create_image(300, 200, anchor=NW, image=self.meteor_3)
 
     # Imagen del meteorito 1
-        self.meteor_2 = PhotoImage(file="meteor2.gif")
-        self.meteor = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
+        self.meteor_4 = PhotoImage(file="meteor.gif")
+        self.meteor = self.canvas.create_image(450, 500, anchor=NW, image=self.meteor_4)
 
     #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
