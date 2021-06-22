@@ -72,14 +72,15 @@ class Ventana():
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
     # Tiempo
-        self.Label_time = Label(self.canvas, text="Time: ", font=("Airstrike", 11))
+        self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
 
         self.segundos1 = Label(self.canvas, text="", font=("Airstrike", 11))
-        self.segundos1.place(x=149, y=550)
+        self.segundos1.place(x=145, y=550)
 
         self.sec1 = 0
         self.vidaPlayerLv1 = 3
+        self.vidaBossLv1 = 0
         self.alive = False
 
     # Movimientos de la nave
@@ -118,13 +119,15 @@ class Ventana():
         self.ventana.mainloop()
 
     # Tiempo del nivel 1
-        def TimeLevel1(self):
+    def TimeLevel1(self):
             if self.alive:
                 return 0
             self.sec1 += 1
             time.sleep(1)
             self.segundos1.config(text=str(self.sec1))
             return self.TimeLevel1()
+
+
 
     # Nivel 2
     def segundo_nivel(self):
@@ -150,14 +153,15 @@ class Ventana():
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
         # Tiempo
-        self.Label_time = Label(self.canvas, text="Time: ", font=("Airstrike", 11))
+        self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
 
-        self.segundos1 = Label(self.canvas, text="", font=("Airstrike", 11))
-        self.segundos1.place(x=149, y=550)
+        self.segundos2 = Label(self.canvas, text="", font=("Airstrike", 11))
+        self.segundos2.place(x=145, y=550)
 
-        self.sec1 = 0
-        self.vidaPlayerLv1 = 3
+        self.sec2 = 0
+        self.vidaPlayerLv2 = 3
+        self.vidaBossLv2 = 0
         self.alive = False
 
         # Movimientos de la nave
@@ -189,19 +193,19 @@ class Ventana():
         self.ventana.bind("<Up>", up)
         self.ventana.bind("<Down>", down)
 
-        time = Thread(target=self.TimeLevel1)
+        time = Thread(target=self.TimeLevel2)
         time.start()
 
         self.ventana.mainloop()
 
-        # Tiempo del nivel 1
-        def TimeLevel1(self):
+        # Tiempo del nivel 2
+    def TimeLevel2(self):
             if self.alive:
                 return 0
-            self.sec1 += 1
+            self.sec2 += 1
             time.sleep(1)
-            self.segundos1.config(text=str(self.sec1))
-            return self.TimeLevel1()
+            self.segundos2.config(text=str(self.sec2))
+            return self.TimeLevel2()
 
     # Nivel 3
     def tercer_nivel(self):
@@ -227,14 +231,15 @@ class Ventana():
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
     # Tiempo
-        self.Label_time = Label(self.canvas, text="Time: ", font=("Airstrike", 11))
+        self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
 
-        self.segundos1 = Label(self.canvas, text="", font=("Airstrike", 11))
-        self.segundos1.place(x=149, y=550)
+        self.segundos3 = Label(self.canvas, text="", font=("Airstrike", 11))
+        self.segundos3.place(x=145, y=550)
 
-        self.sec1 = 0
-        self.vidaPlayerLv1 = 3
+        self.sec3 = 0
+        self.vidaPlayerLv3 = 3
+        self.vidaBossLv3 = 0
         self.alive = False
 
     # Movimientos de la nave
@@ -267,19 +272,19 @@ class Ventana():
         self.ventana.bind("<Up>", up)
         self.ventana.bind("<Down>", down)
 
-        time = Thread(target=self.TimeLevel1)
+        time = Thread(target=self.TimeLevel3)
         time.start()
 
         self.ventana.mainloop()
 
-    # Tiempo del nivel 1
-        def TimeLevel1(self):
-            if self.alive:
-                return 0
-            self.sec1 += 1
-            time.sleep(1)
-            self.segundos1.config(text=str(self.sec1))
-            return self.TimeLevel1()
+    # Tiempo del nivel 3
+    def TimeLevel3(self):
+        if self.alive:
+            return 0
+        self.sec3 += 1
+        time.sleep(1)
+        self.segundos3.config(text=str(self.sec3))
+        return self.TimeLevel3()
 
 #########################################################################################################################################
 # Creditos
