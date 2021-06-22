@@ -120,13 +120,12 @@ class Ventana():
 
     # Tiempo del nivel 1
     def TimeLevel1(self):
-            if self.alive:
-                return 0
-            self.sec1 += 1
-            time.sleep(1)
-            self.segundos1.config(text=str(self.sec1))
-            return self.TimeLevel1()
-
+        if self.alive:
+            return 0
+        self.sec1 += 1
+        time.sleep(1)
+        self.segundos1.config(text=str(self.sec1))
+        return self.TimeLevel1()
 
 
     # Nivel 2
