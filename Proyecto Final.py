@@ -5,6 +5,14 @@
 from tkinter import *
 from threading import Thread
 import time
+import pygame
+# Musica
+pygame.mixer.init()
+def play():
+    pygame.mixer.music.load("Zanac intro.mp3")
+    pygame.mixer.music.play(loops=100)
+def stop():
+    pygame.mixer.music.stop()
 
 # Pantalla Principal y ventanas
 class Ventana():
@@ -41,6 +49,13 @@ class Ventana():
     # Boton Nivel 3
         self.boton_start = Button(self.canvas, text="Nivel 3", font=("Airstrike", 25), command=self.tercer_nivel)
         self.boton_start.place(x=580, y=300)
+    # Botones de Musica
+    # Boton Musica Encendida
+        self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
+        self.boton_on.place(x=650, y=10)
+    # Boton Musica Apagada
+        self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
+        self.boton_off.place(x=700, y=10)
     # Boton pagina de puntajes
         self.boton_start = Button(self.canvas, text="Best Scores", font=("Airstrike", 25), command=self.scores)
         self.boton_start.place(x=305, y=480)
@@ -52,6 +67,8 @@ class Ventana():
         self.boton_quitButton.place(x=650, y=480)
         self.ventana.mainloop()
 
+
+# ----------------------------------------- Nivel 1 --------------------------------------------------------------
     # Nivel 1
     def primer_nivel(self):
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
@@ -60,6 +77,13 @@ class Ventana():
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.boton2 = Button(self.canvas, text="Menu",  font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
+    # Botones de Musica
+    # Boton Musica Encendida
+        self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
+        self.boton_on.place(x=650, y=10)
+        # Boton Musica Apagada
+        self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
+        self.boton_off.place(x=700, y=10)
 
     # Imagen de la nave
         self.nave_jugador = PhotoImage(file="nave.png")
@@ -155,7 +179,7 @@ class Ventana():
         time.sleep(1)
         self.score1.config(text=str(self.scr1))
         return self.puntaje1()
-
+# ----------------------------------------  Nivel 2 --------------------------------------------------------
     # Nivel 2
     def segundo_nivel(self):
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
@@ -164,6 +188,13 @@ class Ventana():
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
+    # Botones de Musica
+    # Boton Musica Encendida
+        self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
+        self.boton_on.place(x=650, y=10)
+        # Boton Musica Apagada
+        self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
+        self.boton_off.place(x=700, y=10)
 
     # Imagen de la nave
         self.nave_jugador2 = PhotoImage(file="nave.png")
@@ -263,6 +294,7 @@ class Ventana():
         self.score2.config(text=str(self.scr2))
         return self.puntaje2()
 
+# ------------------------------------------- Nivel 3 ----------------------------------------------
     # Nivel 3
     def tercer_nivel(self):
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
@@ -271,6 +303,13 @@ class Ventana():
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow", command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
+    # Botones de Musica
+    # Boton Musica Encendida
+        self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
+        self.boton_on.place(x=650, y=10)
+        # Boton Musica Apagada
+        self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
+        self.boton_off.place(x=700, y=10)
 
     # Imagen de la nave
         self.nave_jugador3 = PhotoImage(file="nave.png")
@@ -419,4 +458,3 @@ ventana.config(bg="Black")
 miObjetoVentanas = Ventana(ventana)
 
 ventana.mainloop()
-print()
