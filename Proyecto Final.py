@@ -574,7 +574,7 @@ def quicksort(lista):
         pivot = lista[0][1]
         i = 0
         for j in range(len(lista) - 1):
-            if lista[j + 1][1] < pivot:
+            if lista[j + 1][1] > pivot:
                 lista[j + 1], lista[i + 1] = lista[i + 1], lista[j + 1]
                 i += 1
         lista[0], lista[i] = lista[i], lista[0]
