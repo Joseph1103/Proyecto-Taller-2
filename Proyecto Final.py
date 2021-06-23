@@ -1,4 +1,4 @@
-# Proyecto 2 Rediseñado en Tkinter
+# Proyecto 2
 # Joseph Coronado Alvarado
 # Alejandro Benavides Juarez
 
@@ -111,7 +111,7 @@ class Ventana():
         bg = PhotoImage(file="fondo.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.canvas.place(x=0, y=0)
-        self.canvas.create_text(420, 80, text="Dodge Space", font=("Airstrike", 35), fill="#FFF8E7")
+        self.canvas.create_text(420, 80, text="Space Souls III", font=("Airstrike", 35), fill="#FFF8E7")
         self.canvas.create_text(415, 120, text="Digite su Nombre", font=("Airstrike", 25), fill="gainsboro")
         # Entry del nombre
         un_entry = Entry(self.ventana, font=("Airstrike", 30), width=10, fg="black")
@@ -151,6 +151,7 @@ class Ventana():
     def Cambiar2(self):
         if self.sec1 >= 60:
             return self.segundo_nivel()
+
         # Nivel 1
 
     def primer_nivel(self):
@@ -158,8 +159,7 @@ class Ventana():
         self.canvas.place(x=-5, y=0)
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
-        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
-                             command=self.PantallaPrincipal)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow", command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
         self.boton0 = Button(self.canvas, text="Next", font=("Airstrike", 15), bg="Yellow", command=self.Cambiar2)
 
@@ -178,12 +178,8 @@ class Ventana():
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador)
 
         # Imagen del meteorito 1
-        self.meteor_1 = PhotoImage(file="meteor.gif")
-        self.meteor1 = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
-
-        # Imagen del meteorito 2
-        self.meteor_2 = PhotoImage(file="meteor2.gif")
-        self.meteor2 = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
+        self.meteor_1 = PhotoImage(file="meteor2.gif")
+        self.meteor1 = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_1)
 
         #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
@@ -241,8 +237,6 @@ class Ventana():
         time.start()
         score = Thread(target=self.puntaje1)
         score.start()
-        hiloMP = Thread(target=self.MovimientoProyectil, args=(self.meteor2, self.nave))
-        hiloMP.start()
         hiloMP2 = Thread(target=self.MovimientoProyectil, args=(self.meteor1, self.nave))
         hiloMP2.start()
 
@@ -271,17 +265,22 @@ class Ventana():
         self.score1.config(text=str(self.scr))
         return self.puntaje1()
         # ----------------------------------------  Nivel 2 --------------------------------------------------------
+    def Cambiar3(self):
+        if self.sec2 >= 60:
+            return self.tercer_nivel()
         # Nivel 2
-
     def segundo_nivel(self):
         self.alive = True
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
         self.canvas.place(x=-5, y=0)
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
-        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
-                             command=self.PantallaPrincipal)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
+        self.boton0 = Button(self.canvas, text="Next", font=("Airstrike", 15), bg="Yellow", command=self.Cambiar3)
+
+        self.alive = True
+
         # Botones de Musica
         # Boton Musica Encendida
         self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
@@ -296,15 +295,11 @@ class Ventana():
 
         # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
-        self.meteor = self.canvas.create_image(50, 100, anchor=NW, image=self.meteor_1)
+        self.meteor1 = self.canvas.create_image(500, 100, anchor=NW, image=self.meteor_1)
 
         # Imagen del meteorito 2
         self.meteor_2 = PhotoImage(file="meteor2.gif")
-        self.meteor = self.canvas.create_image(210, 350, anchor=NW, image=self.meteor_2)
-
-        # Imagen del meteorito 3
-        self.meteor_3 = PhotoImage(file="meteor2.gif")
-        self.meteor = self.canvas.create_image(500, 200, anchor=NW, image=self.meteor_3)
+        self.meteor2 = self.canvas.create_image(600, 350, anchor=NW, image=self.meteor_2)
 
         #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
@@ -333,26 +328,26 @@ class Ventana():
 
         # Movimientos de la nave
         def left(event):
-            x = -12
+            x = -14
             y = 0
             self.canvas.move(self.nave, x, y)
 
         def right(event):
-            x = 12
+            x = 14
             y = 0
             self.canvas.move(self.nave, x, y)
 
         def up(event):
             x = 0
-            y = -12
+            y = -14
             self.canvas.move(self.nave, x, y)
 
         def down(event):
             x = 0
-            y = 12
+            y = 14
             self.canvas.move(self.nave, x, y)
 
-            self.ventana.mainloop()
+
 
         # LLamadas a los movimientos
         self.ventana.bind("<Left>", left)
@@ -364,6 +359,10 @@ class Ventana():
         time.start()
         score = Thread(target=self.puntaje2)
         score.start()
+        hiloMP2 = Thread(target=self.MovimientoProyectil, args=(self.meteor1, self.nave))
+        hiloMP2.start()
+        hiloMP1 = Thread(target=self.MovimientoProyectil, args=(self.meteor2, self.nave))
+        hiloMP1.start()
 
         self.ventana.mainloop()
 
@@ -412,19 +411,15 @@ class Ventana():
 
         # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
-        self.meteor = self.canvas.create_image(100, 400, anchor=NW, image=self.meteor_1)
+        self.meteor1 = self.canvas.create_image(100, 400, anchor=NW, image=self.meteor_1)
 
         # Imagen del meteorito 2
         self.meteor_2 = PhotoImage(file="meteor2.gif")
-        self.meteor = self.canvas.create_image(600, 350, anchor=NW, image=self.meteor_2)
+        self.meteor2 = self.canvas.create_image(600, 350, anchor=NW, image=self.meteor_2)
 
         # Imagen del meteorito 3
-        self.meteor_3 = PhotoImage(file="meteor2.gif")
-        self.meteor = self.canvas.create_image(300, 200, anchor=NW, image=self.meteor_3)
-
-        # Imagen del meteorito 4
-        self.meteor_4 = PhotoImage(file="meteor.gif")
-        self.meteor = self.canvas.create_image(450, 500, anchor=NW, image=self.meteor_4)
+        self.meteor_3 = PhotoImage(file="meteor.gif")
+        self.meteor3 = self.canvas.create_image(300, 200, anchor=NW, image=self.meteor_3)
 
         #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
@@ -441,7 +436,6 @@ class Ventana():
 
         self.sec3 = 0
         self.vidaPlayerLv3 = 3
-        self.alive = False
 
         #  Puntaje
         self.score_label = Label(self.canvas, text="Score:", font=("Airstrike", 11))
@@ -450,30 +444,29 @@ class Ventana():
         self.score3 = Label(self.canvas, text="", font=("Airstrike", 11))
         self.score3.place(x=250, y=550)
         self.vidaPlayerLv1 = 3
-        self.alive = False
 
         # Movimientos de la nave
         def left(event):
-            x = -12
+            x = -16
             y = 0
             self.canvas.move(self.nave, x, y)
 
         def right(event):
-            x = 12
+            x = 16
             y = 0
             self.canvas.move(self.nave, x, y)
 
         def up(event):
             x = 0
-            y = -12
+            y = -16
             self.canvas.move(self.nave, x, y)
 
         def down(event):
             x = 0
-            y = 12
+            y = 16
             self.canvas.move(self.nave, x, y)
 
-            self.ventana.mainloop()
+
 
         # LLamadas a los movimientos
         self.ventana.bind("<Left>", left)
@@ -485,6 +478,13 @@ class Ventana():
         time.start()
         score = Thread(target=self.puntaje3)
         score.start()
+        hiloMP2 = Thread(target=self.MovimientoProyectil, args=(self.meteor1, self.nave))
+        hiloMP2.start()
+        hiloMP1 = Thread(target=self.MovimientoProyectil, args=(self.meteor2, self.nave))
+        hiloMP1.start()
+        hiloMP3 = Thread(target=self.MovimientoProyectil, args=(self.meteor3, self.nave))
+        hiloMP3.start()
+
 
         self.ventana.mainloop()
 
@@ -517,8 +517,7 @@ class Ventana():
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.canvas.place(x=-5, y=0)
-        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
-                             command=self.PantallaPrincipal)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
 
         # Imagen del meme
@@ -563,7 +562,7 @@ def GenerarMatriz(lines):
 
     for i in lines:
         aux = i.split(";")
-        temp += [[aux[0],int(aux[1])]]
+        temp += [[aux[0],float(aux[1])]]
 
     return temp
 
