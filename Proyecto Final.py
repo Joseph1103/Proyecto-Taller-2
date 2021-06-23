@@ -6,6 +6,7 @@ from tkinter import *
 from threading import Thread
 import time
 import pygame
+import random
 # Musica
 pygame.mixer.init()
 def play():
@@ -21,90 +22,177 @@ class Ventana():
         self.canvas = Canvas(self.ventana, width=800, height=600, bg="white", highlightbackground="White")
         self.canvas.pack()
         self.canvas.place(x=0, y=0)
-        self.alive = False
+        self.alive = True
+        self.nombre = ""
         self.PantallaPrincipal()
 
+    def Verificar(self, texto, nivel):
+
+        if texto != "":
+            self.nombre = texto
+            if nivel == 1:
+                return self.primer_nivel()
+            elif nivel == 2:
+                return self.segundo_nivel()
+            elif nivel == 3:
+                return self.tercer_nivel()
+
+    def Colision(self, meteorito, nave, colisionando):
+
+        global vida
+
+        coordsMeteorito = self.canvas.bbox(meteorito)
+        coordsNave = self.canvas.bbox(nave)
+
+        if coordsMeteorito[0] < coordsNave[1] and coordsMeteorito[2] > coordsNave[0] and coordsMeteorito[1] < \
+                coordsNave[3] and coordsMeteorito[3] > coordsNave[1]:
+
+            if colisionando:
+                vida -= 1
+                self.vida.config(text="Vida: " + str(vida))
+
+                if vida == 0:
+                #    Agregar(self.nombre + ";" + str(self.scr) + "\n")
+                    self.alive = False
+
+                return False
+
+
+        else:
+            return True
+
+    def MovimientoProyectil(self, meteorito, nave):
+
+        x = 5
+        y = 5
+        colisionando = False
+
+        while (self.alive):
+
+            coordsMeteorito = self.canvas.bbox(meteorito)
+
+            if coordsMeteorito[0] <= 5:
+                x = random.randint(1, 5)
+                y = random.randint(-5, 5)
+
+            if coordsMeteorito[2] >= 800:
+                x = random.randint(-5, -1)
+                y = random.randint(-5, 5)
+
+            if coordsMeteorito[1] <= 5:
+                y = random.randint(1, 5)
+                x = random.randint(-5, 5)
+
+            if coordsMeteorito[3] >= 600:
+                y = random.randint(-5, -1)
+                x = random.randint(-5, 5)
+
+            self.canvas.move(meteorito, x, y)
+
+            colisionando = self.Colision(meteorito, nave, colisionando)
+
+            self.canvas.update()
+
+            time.sleep(0.01)
+
     def PantallaPrincipal(self):
-    # Variables
+        # Variables
         global vida
         vida = 3
         global score
         score = 0
-    # Fondo
+
+        self.nombre = ""
+        self.alive = False
+        self.scr = 0
+
+        # Fondo
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="white")
         bg = PhotoImage(file="fondo.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.canvas.place(x=0, y=0)
         self.canvas.create_text(420, 80, text="Dodge Space", font=("Airstrike", 35), fill="#FFF8E7")
         self.canvas.create_text(415, 120, text="Digite su Nombre", font=("Airstrike", 25), fill="gainsboro")
-    # Entry del nombre
+        # Entry del nombre
         un_entry = Entry(self.ventana, font=("Airstrike", 30), width=10, fg="black")
         un_window = self.canvas.create_window(272, 135, anchor="nw", window=un_entry)
-    # Boton Nivel 1
-        self.boton_start = Button(self.canvas, text="Nivel 1", font=("Airstrike", 25), command=self.primer_nivel)
+        # Boton Nivel 1
+        self.boton_start = Button(self.canvas, text="Nivel 1", font=("Airstrike", 25),
+                                  command=lambda: self.Verificar(un_entry.get(), 1))
         self.boton_start.place(x=75, y=300)
-    # Boton Nivel 2
-        self.boton_start = Button(self.canvas, text="Nivel 2", font=("Airstrike", 25) , command=self.segundo_nivel)
+        # Boton Nivel 2
+        self.boton_start = Button(self.canvas, text="Nivel 2", font=("Airstrike", 25),
+                                  command=lambda: self.Verificar(un_entry.get(), 2))
         self.boton_start.place(x=335, y=300)
-    # Boton Nivel 3
-        self.boton_start = Button(self.canvas, text="Nivel 3", font=("Airstrike", 25), command=self.tercer_nivel)
+        # Boton Nivel 3
+        self.boton_start = Button(self.canvas, text="Nivel 3", font=("Airstrike", 25),
+                                  command=lambda: self.Verificar(un_entry.get(), 3))
         self.boton_start.place(x=580, y=300)
-    # Botones de Musica
-    # Boton Musica Encendida
+        # Botones de Musica
+        # Boton Musica Encendida
         self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
         self.boton_on.place(x=650, y=10)
-    # Boton Musica Apagada
+        # Boton Musica Apagada
         self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
         self.boton_off.place(x=700, y=10)
-    # Boton pagina de puntajes
+        # Boton pagina de puntajes
         self.boton_start = Button(self.canvas, text="Best Scores", font=("Airstrike", 25), command=self.scores)
         self.boton_start.place(x=305, y=480)
-    # Boton pagina de creditos
+        # Boton pagina de creditos
         self.boton_credits = Button(self.canvas, text="Creditos", font=("Airstrike", 25), command=self.creditos)
         self.boton_credits.place(x=20, y=480)
-    # Boton Quitar juego
+        # Boton Quitar juego
         self.boton_quitButton = Button(self.canvas, text="Salir", font=("Airstrike", 25), command=self.quitar_juego)
         self.boton_quitButton.place(x=650, y=480)
         self.ventana.mainloop()
 
+        # ----------------------------------------- Nivel 1 --------------------------------------------------------------
 
-# ----------------------------------------- Nivel 1 --------------------------------------------------------------
-    # Nivel 1
+    def Cambiar2(self):
+        if self.sec1 >= 60:
+            return self.segundo_nivel()
+        # Nivel 1
+
     def primer_nivel(self):
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
         self.canvas.place(x=-5, y=0)
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
-        self.boton2 = Button(self.canvas, text="Menu",  font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
+                             command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
-    # Botones de Musica
-    # Boton Musica Encendida
+        self.boton0 = Button(self.canvas, text="Next", font=("Airstrike", 15), bg="Yellow", command=self.Cambiar2)
+
+        self.alive = True
+
+        # Botones de Musica
+        # Boton Musica Encendida
         self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
         self.boton_on.place(x=650, y=10)
         # Boton Musica Apagada
         self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
         self.boton_off.place(x=700, y=10)
 
-    # Imagen de la nave
+        # Imagen de la nave
         self.nave_jugador = PhotoImage(file="nave.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador)
 
-    # Imagen del meteorito 1
+        # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
-        self.meteor = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
+        self.meteor1 = self.canvas.create_image(750, 100, anchor=NW, image=self.meteor_1)
 
-    # Imagen del meteorito 2
+        # Imagen del meteorito 2
         self.meteor_2 = PhotoImage(file="meteor2.gif")
-        self.meteor = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
+        self.meteor2 = self.canvas.create_image(315, 350, anchor=NW, image=self.meteor_2)
 
-    #  Barra de vida
+        #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
         self.progresbar.place(x=0, y=800)
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
 
-    # Tiempo
-        self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
+        # Tiempo
+        self.Label_time = Label(self.canvas, text="Time:", font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
 
         self.segundos1 = Label(self.canvas, text="", font=("Airstrike", 11))
@@ -112,20 +200,17 @@ class Ventana():
 
         self.sec1 = 0
         self.vidaPlayerLv1 = 3
-        self.alive = False
 
-    #  Puntaje
+        #  Puntaje
         self.score_label = Label(self.canvas, text="Score:", font=("Airstrike", 11))
         self.score_label.place(x=190, y=550)
 
         self.score1 = Label(self.canvas, text="", font=("Airstrike", 11))
         self.score1.place(x=250, y=550)
 
-        self.scr1 = 0
         self.vidaPlayerLv1 = 3
-        self.alive = False
 
-    # Movimientos de la nave
+        # Movimientos de la nave
         def left(event):
             x = -12
             y = 0
@@ -146,10 +231,7 @@ class Ventana():
             y = 12
             self.canvas.move(self.nave, x, y)
 
-
-            self.ventana.mainloop()
-
-    # LLamadas a los movimientos
+        # LLamadas a los movimientos
         self.ventana.bind("<Left>", left)
         self.ventana.bind("<Right>", right)
         self.ventana.bind("<Up>", up)
@@ -159,67 +241,79 @@ class Ventana():
         time.start()
         score = Thread(target=self.puntaje1)
         score.start()
+        hiloMP = Thread(target=self.MovimientoProyectil, args=(self.meteor2, self.nave))
+        hiloMP.start()
+        hiloMP2 = Thread(target=self.MovimientoProyectil, args=(self.meteor1, self.nave))
+        hiloMP2.start()
 
         self.ventana.mainloop()
 
-    # Tiempo del nivel 1
+        # Tiempo del nivel 1
+
     def TimeLevel1(self):
-        if self.alive:
+        if not self.alive:
             return 0
+        elif self.sec1 >= 60:
+            self.alive = False
+            self.boton0.place(x=0, y=40)
         self.sec1 += 1
         time.sleep(1)
         self.segundos1.config(text=str(self.sec1))
         return self.TimeLevel1()
 
-    # Score
+        # Score
+
     def puntaje1(self):
-        if self.alive:
+        if not self.alive:
             return 0
-        self.scr1 += 1
+        self.scr += 1
         time.sleep(1)
-        self.score1.config(text=str(self.scr1))
+        self.score1.config(text=str(self.scr))
         return self.puntaje1()
-# ----------------------------------------  Nivel 2 --------------------------------------------------------
-    # Nivel 2
+        # ----------------------------------------  Nivel 2 --------------------------------------------------------
+        # Nivel 2
+
     def segundo_nivel(self):
+        self.alive = True
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
         self.canvas.place(x=-5, y=0)
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
-        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
+                             command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
-    # Botones de Musica
-    # Boton Musica Encendida
+        # Botones de Musica
+        # Boton Musica Encendida
         self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
         self.boton_on.place(x=650, y=10)
         # Boton Musica Apagada
         self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
         self.boton_off.place(x=700, y=10)
 
-    # Imagen de la nave
+        # Imagen de la nave
         self.nave_jugador2 = PhotoImage(file="nave.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador2)
 
-    # Imagen del meteorito 1
+        # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
         self.meteor = self.canvas.create_image(50, 100, anchor=NW, image=self.meteor_1)
 
-    # Imagen del meteorito 2
+        # Imagen del meteorito 2
         self.meteor_2 = PhotoImage(file="meteor2.gif")
         self.meteor = self.canvas.create_image(210, 350, anchor=NW, image=self.meteor_2)
 
-    # Imagen del meteorito 3
+        # Imagen del meteorito 3
         self.meteor_3 = PhotoImage(file="meteor2.gif")
         self.meteor = self.canvas.create_image(500, 200, anchor=NW, image=self.meteor_3)
 
-    #  Barra de vida
+        #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
         self.progresbar.place(x=0, y=800)
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
 
-    # Tiempo
-        self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
+        # Tiempo
+        self.Label_time = Label(self.canvas, text="Time:", font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
 
         self.segundos2 = Label(self.canvas, text="", font=("Airstrike", 11))
@@ -227,18 +321,15 @@ class Ventana():
 
         self.sec2 = 0
         self.vidaPlayerLv2 = 3
-        self.alive = False
 
-    #  Puntaje
+        #  Puntaje
         self.score_label = Label(self.canvas, text="Score:", font=("Airstrike", 11))
         self.score_label.place(x=190, y=550)
 
         self.score2 = Label(self.canvas, text="", font=("Airstrike", 11))
         self.score2.place(x=250, y=550)
 
-        self.scr2 = 0
         self.vidaPlayerLv1 = 3
-        self.alive = False
 
         # Movimientos de la nave
         def left(event):
@@ -277,68 +368,72 @@ class Ventana():
         self.ventana.mainloop()
 
         # Tiempo del nivel 2
-    def TimeLevel2(self):
-            if self.alive:
-                return 0
-            self.sec2 += 1
-            time.sleep(1)
-            self.segundos2.config(text=str(self.sec2))
-            return self.TimeLevel2()
 
-    # Score
-    def puntaje2(self):
-        if self.alive:
+    def TimeLevel2(self):
+        if not self.alive:
             return 0
-        self.scr2 += 2.5
+        self.sec2 += 1
         time.sleep(1)
-        self.score2.config(text=str(self.scr2))
+        self.segundos2.config(text=str(self.sec2))
+        return self.TimeLevel2()
+
+        # Score
+
+    def puntaje2(self):
+        if not self.alive:
+            return 0
+        self.scr += 2.5
+        time.sleep(1)
+        self.score2.config(text=str(self.scr))
         return self.puntaje2()
 
-# ------------------------------------------- Nivel 3 ----------------------------------------------
-    # Nivel 3
+        # ------------------------------------------- Nivel 3 ----------------------------------------------
+        # Nivel 3
+
     def tercer_nivel(self):
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
         self.canvas.place(x=-5, y=0)
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
-        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow", command=self.PantallaPrincipal)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
+                             command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
-    # Botones de Musica
-    # Boton Musica Encendida
+        # Botones de Musica
+        # Boton Musica Encendida
         self.boton_on = Button(self.canvas, text="🔊 ON", font=("Airstrike", 10), command=play)
         self.boton_on.place(x=650, y=10)
         # Boton Musica Apagada
         self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
         self.boton_off.place(x=700, y=10)
 
-    # Imagen de la nave
+        # Imagen de la nave
         self.nave_jugador3 = PhotoImage(file="nave.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador3)
 
-    # Imagen del meteorito 1
+        # Imagen del meteorito 1
         self.meteor_1 = PhotoImage(file="meteor.gif")
         self.meteor = self.canvas.create_image(100, 400, anchor=NW, image=self.meteor_1)
 
-    # Imagen del meteorito 2
+        # Imagen del meteorito 2
         self.meteor_2 = PhotoImage(file="meteor2.gif")
         self.meteor = self.canvas.create_image(600, 350, anchor=NW, image=self.meteor_2)
 
-    # Imagen del meteorito 3
+        # Imagen del meteorito 3
         self.meteor_3 = PhotoImage(file="meteor2.gif")
         self.meteor = self.canvas.create_image(300, 200, anchor=NW, image=self.meteor_3)
 
-    # Imagen del meteorito 4
+        # Imagen del meteorito 4
         self.meteor_4 = PhotoImage(file="meteor.gif")
         self.meteor = self.canvas.create_image(450, 500, anchor=NW, image=self.meteor_4)
 
-    #  Barra de vida
+        #  Barra de vida
         self.progresbar = LabelFrame(self.canvas, width=800, height=25, background="black")
         self.progresbar.place(x=0, y=800)
         self.vida = Label(self.canvas, text="Vida: " + str(vida), font=("Airstrike", 11))
         self.vida.place(x=5, y=550)
 
-    # Tiempo
-        self.Label_time = Label(self.canvas, text="Time:",font=("Airstrike", 11))
+        # Tiempo
+        self.Label_time = Label(self.canvas, text="Time:", font=("Airstrike", 11))
         self.Label_time.place(x=100, y=550)
 
         self.segundos3 = Label(self.canvas, text="", font=("Airstrike", 11))
@@ -348,18 +443,16 @@ class Ventana():
         self.vidaPlayerLv3 = 3
         self.alive = False
 
-    #  Puntaje
+        #  Puntaje
         self.score_label = Label(self.canvas, text="Score:", font=("Airstrike", 11))
         self.score_label.place(x=190, y=550)
 
         self.score3 = Label(self.canvas, text="", font=("Airstrike", 11))
         self.score3.place(x=250, y=550)
-
-        self.scr3 = 0
         self.vidaPlayerLv1 = 3
         self.alive = False
 
-    # Movimientos de la nave
+        # Movimientos de la nave
         def left(event):
             x = -12
             y = 0
@@ -380,10 +473,9 @@ class Ventana():
             y = 12
             self.canvas.move(self.nave, x, y)
 
-
             self.ventana.mainloop()
 
-    # LLamadas a los movimientos
+        # LLamadas a los movimientos
         self.ventana.bind("<Left>", left)
         self.ventana.bind("<Right>", right)
         self.ventana.bind("<Up>", up)
@@ -396,7 +488,8 @@ class Ventana():
 
         self.ventana.mainloop()
 
-    # Tiempo del nivel 3
+        # Tiempo del nivel 3
+
     def TimeLevel3(self):
         if self.alive:
             return 0
@@ -405,48 +498,58 @@ class Ventana():
         self.segundos3.config(text=str(self.sec3))
         return self.TimeLevel3()
 
-    # Score
+        # Score
+
     def puntaje3(self):
         if self.alive:
             return 0
-        self.scr3 += 5
+        self.scr += 5
         time.sleep(1)
-        self.score3.config(text=str(self.scr3))
+        self.score3.config(text=str(self.scr))
         return self.puntaje3()
 
-#########################################################################################################################################
-# Puntajes
+        #########################################################################################################################################
+        # Puntajes
+
     def scores(self):
+    #   Escribir(GenerarLista(quicksort(GenerarMatriz(Leer()))))
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.canvas.place(x=-5, y=0)
-        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow", command=self.PantallaPrincipal)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
+                             command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
 
-    # Imagen del meme
+        # Imagen del meme
         self.meme = PhotoImage(file="nopuedeser.png")
         self.hehe = self.canvas.create_image(250, 65, anchor=NW, image=self.meme)
 
         self.ventana.mainloop()
 
-#########################################################################################################################################
-# Creditos
+        #########################################################################################################################################
+        # Creditos
+
     def creditos(self):
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
         self.canvas.place(x=-5, y=0)
-        self.canvas.create_text(400, 260, text="   Creado en Costa Rica\n\n   Tecnologico De Costa Rica \n\n   Ingenieria en Computadores \n\n   2021 Grupo 03 \n\n    Leonardo Araya \n\n    Ver.1.0 \n\n    Joseph Coronado Alvarado \n\n    Alejandro Benavides Juarez \n\n    Tkinter ", font=("Airstrike", 25), fill="green")
-        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow", command=self.PantallaPrincipal)
+        self.canvas.create_text(400, 260,
+                                text="   Creado en Costa Rica\n\n   Tecnologico De Costa Rica \n\n   Ingenieria en Computadores \n\n   2021 Grupo 03 \n\n    Leonardo Araya \n\n    Ver.1.0 \n\n    Joseph Coronado Alvarado \n\n    Alejandro Benavides Juarez \n\n    Tkinter ",
+                                font=("Airstrike", 25), fill="green")
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
+                             command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
         self.ventana.mainloop()
 
-######################################################################################################################################
-# Quitar juego
+        ######################################################################################################################################
+        # Quitar juego
+
     def quitar_juego(self):
         self.ventana.destroy()
         self.ventana.mainloop()
+
 
 # Fin del programa
 ventana = Tk()
