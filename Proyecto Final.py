@@ -52,7 +52,11 @@ class Ventana():
                 self.vida.config(text="Vida: " + str(vida))
 
                 if vida == 0:
-                    Agregar(self.nombre + ";" + str(self.scr) + "\n")
+                    posicion = Agregar(self.nombre + ";" + str(self.scr) + "\n")
+
+                    if posicion >= 0:
+                        self.temp.config(text="Ha ganado la posicion " + str(posicion) + " con un puntaje de" + str(self.scr),font=("Airstrike",12))
+                        self.temp.place(x=100, y=100)
                     self.alive = False
 
                 return False
@@ -164,6 +168,7 @@ class Ventana():
         self.boton0 = Button(self.canvas, text="Next", font=("Airstrike", 15), bg="Yellow", command=self.Cambiar2)
 
         self.alive = True
+        self.temp = Label(self.canvas, text="")
 
         # Botones de Musica
         # Boton Musica Encendida
@@ -174,7 +179,7 @@ class Ventana():
         self.boton_off.place(x=700, y=10)
 
         # Imagen de la nave
-        self.nave_jugador = PhotoImage(file="nave.png")
+        self.nave_jugador = PhotoImage(file="nave1.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador)
 
         # Imagen del meteorito 1
@@ -280,6 +285,7 @@ class Ventana():
         self.boton0 = Button(self.canvas, text="Next", font=("Airstrike", 15), bg="Yellow", command=self.Cambiar3)
 
         self.alive = True
+        self.temp = Label(self.canvas, text="")
 
         # Botones de Musica
         # Boton Musica Encendida
@@ -290,7 +296,7 @@ class Ventana():
         self.boton_off.place(x=700, y=10)
 
         # Imagen de la nave
-        self.nave_jugador2 = PhotoImage(file="nave.png")
+        self.nave_jugador2 = PhotoImage(file="nave1.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador2)
 
         # Imagen del meteorito 1
@@ -407,8 +413,10 @@ class Ventana():
         self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
         self.boton_off.place(x=700, y=10)
         self.alive = True
+        self.temp = Label(self.canvas, text="")
+
         # Imagen de la nave
-        self.nave_jugador3 = PhotoImage(file="nave.png")
+        self.nave_jugador3 = PhotoImage(file="nave1.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador3)
 
         # Imagen del meteorito 1
@@ -449,23 +457,23 @@ class Ventana():
 
         # Movimientos de la nave
         def left(event):
-            x = -16
+            x = -20
             y = 0
             self.canvas.move(self.nave, x, y)
 
         def right(event):
-            x = 16
+            x = 20
             y = 0
             self.canvas.move(self.nave, x, y)
 
         def up(event):
             x = 0
-            y = -16
+            y = -20
             self.canvas.move(self.nave, x, y)
 
         def down(event):
             x = 0
-            y = 16
+            y = 20
             self.canvas.move(self.nave, x, y)
 
 
@@ -493,7 +501,7 @@ class Ventana():
         # Tiempo del nivel 3
 
     def TimeLevel3(self):
-        if self.alive:
+        if not self.alive:
             return 0
         self.sec3 += 1
         time.sleep(1)
@@ -503,7 +511,7 @@ class Ventana():
         # Score
 
     def puntaje3(self):
-        if self.alive:
+        if not self.alive:
             return 0
         self.scr += 5
         time.sleep(1)
@@ -521,6 +529,16 @@ class Ventana():
         self.canvas.place(x=-5, y=0)
         self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
+        lista = GenerarMatriz(Leer())
+
+        x = 100
+        y = 100
+
+        for i in range(0, 7):
+            self.temp = Label(self.canvas, font=("Airstrike",12), text=lista[i][0] + " " + str(lista[i][1]))
+            self.temp.place(x=x, y=y)
+
+            y += 50
 
         # Imagen del meme
         self.meme = PhotoImage(file="nopuedeser.png")
@@ -602,9 +620,25 @@ def Escribir(lista):
     archivo.close()
 
 def Agregar(puntaje): #Formato = Nombre:Puntaje\n
+
     archivo = open("puntajes.txt", "a")
     archivo.writelines(puntaje)
     archivo.close()
+
+    Escribir(GenerarLista(quicksort(GenerarMatriz(Leer()))))
+
+    return VerificarPuntaje(puntaje)
+
+def VerificarPuntaje(puntaje):
+
+    lista = Leer()
+
+    for i in range(0,7):
+
+        if puntaje == lista[i]:
+            return i+1
+
+    return -1
 
 
 # Fin del programa
