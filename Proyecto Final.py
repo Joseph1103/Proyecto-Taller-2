@@ -52,7 +52,7 @@ class Ventana():
                 self.vida.config(text="Vida: " + str(vida))
 
                 if vida == 0:
-                #    Agregar(self.nombre + ";" + str(self.scr) + "\n")
+                    Agregar(self.nombre + ";" + str(self.scr) + "\n")
                     self.alive = False
 
                 return False
@@ -512,7 +512,7 @@ class Ventana():
         # Puntajes
 
     def scores(self):
-    #   Escribir(GenerarLista(quicksort(GenerarMatriz(Leer()))))
+        Escribir(GenerarLista(quicksort(GenerarMatriz(Leer()))))
         self.canvas = Canvas(self.ventana, width=800, height=600, highlightbackground="White")
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
@@ -549,6 +549,61 @@ class Ventana():
     def quitar_juego(self):
         self.ventana.destroy()
         self.ventana.mainloop()
+
+def Leer():
+
+    archivo = open("puntajes.txt","r")
+    lines = archivo.readlines()
+    archivo.close()
+    return lines
+
+def GenerarMatriz(lines):
+
+    temp = []
+
+    for i in lines:
+        aux = i.split(";")
+        temp += [[aux[0],int(aux[1])]]
+
+    return temp
+
+def quicksort(lista):
+
+    if len(lista) == 1 or len(lista) == 0:
+        return lista
+    else:
+        pivot = lista[0][1]
+        i = 0
+        for j in range(len(lista) - 1):
+            if lista[j + 1][1] < pivot:
+                lista[j + 1], lista[i + 1] = lista[i + 1], lista[j + 1]
+                i += 1
+        lista[0], lista[i] = lista[i], lista[0]
+        first_part = quicksort(lista[:i])
+        second_part = quicksort(lista[i + 1:])
+        first_part.append(lista[i])
+        return first_part + second_part
+
+def GenerarLista(matriz):
+
+    lista = []
+
+    for i in matriz:
+
+        lista.append(i[0] + ";" +  str(i[1]) + "\n")
+
+    return lista
+
+def Escribir(lista):
+
+    archivo = open("puntajes.txt","w")
+    archivo.writelines(lista)
+    archivo.close()
+
+def Agregar(puntaje): #Formato = Nombre:Puntaje\n
+    archivo = open("puntajes.txt", "a")
+    archivo.writelines(puntaje)
+    archivo.close()
 
 
 # Fin del programa
