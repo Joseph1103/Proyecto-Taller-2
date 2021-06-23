@@ -371,6 +371,9 @@ class Ventana():
     def TimeLevel2(self):
         if not self.alive:
             return 0
+        elif self.sec2 >= 60:
+            self.alive = False
+            self.boton0.place(x=0, y=40)
         self.sec2 += 1
         time.sleep(1)
         self.segundos2.config(text=str(self.sec2))
@@ -394,8 +397,7 @@ class Ventana():
         self.canvas.place(x=-5, y=0)
         bg = PhotoImage(file="space.png")
         self.canvas.create_image(0, 0, image=bg, anchor="nw")
-        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow",
-                             command=self.PantallaPrincipal)
+        self.boton2 = Button(self.canvas, text="Menu", font=("Airstrike", 15), bg="Yellow", command=self.PantallaPrincipal)
         self.boton2.place(x=0, y=0)
         # Botones de Musica
         # Boton Musica Encendida
@@ -404,7 +406,7 @@ class Ventana():
         # Boton Musica Apagada
         self.boton_off = Button(self.canvas, text="🔊 OFF", font=("Airstrike", 10), command=stop)
         self.boton_off.place(x=700, y=10)
-
+        self.alive = True
         # Imagen de la nave
         self.nave_jugador3 = PhotoImage(file="nave.png")
         self.nave = self.canvas.create_image(350, 430, anchor=NW, image=self.nave_jugador3)

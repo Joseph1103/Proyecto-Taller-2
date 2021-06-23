@@ -37,10 +37,15 @@ Joseph;13.0
 Joseph;13.0
 Joseph;13.0
 Joseph;13.0
+Joseph ;12.0
 a;10.0
 a;10.0
 a;8.0
 a;7.5
 a;7.5
 A;6.0
+a;6.0
 a;5.0
+a;0.0
+a;0.0
+a;0.0
